@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserServiceImpl implements UserService{
-    //TODO create map of users and create save method
     private Map<String,UserDto> userMap = new ConcurrentHashMap<>();
 
     public UserServiceImpl() {
@@ -22,18 +21,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto getUser(String username) {
         return userMap.get(username);
-    }
-
-    @Override
-    public boolean checkUser(UserDto user) {
-        if (user.getPassword().equals(userMap.get(user.getUsername()))) {
-            return true;
-        } else return false;
-    }
-
-    @Override
-    public void addUser (String username, String pass, String name) {
-        userMap.put(username, new UserDto(username,pass,name));
     }
 
     @Override

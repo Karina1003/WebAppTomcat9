@@ -14,7 +14,7 @@
 <body style="background-color:rgb(182,207,236);">
 
   <header>
-      <h1 style="text-align:center"> Welcome, ${user.username} </h1>
+      <h1 style="text-align:center"> Welcome, ${user.name} </h1>
   </header>
 
   <c:if test="${not user.loggedIn}"><c:redirect url="/app/errorLogin"/></c:if>

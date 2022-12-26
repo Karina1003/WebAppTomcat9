@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.dto.UserDto;
+import app.exception.LoginException;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserDto user;
+
     @GetMapping("/login")
     public ModelAndView logIn() {
+        user.setLoggedIn(false);
         UserDto user = new UserDto();
         ModelAndView model = new ModelAndView("login/login");
         model.addObject("user", user);
@@ -26,6 +31,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ModelAndView logOut() {
+        user.setLoggedIn(false);
         UserDto user = new UserDto();
         ModelAndView model = new ModelAndView("login/login");
         model.addObject("user", user);
@@ -34,11 +40,20 @@ public class UserController {
 
     @PostMapping("/user")
     public ModelAndView getUser(UserDto userReceived) {
-        UserDto user = userService.getUser(userReceived.getUsername());
+        user = userService.getUser(userReceived.getUsername());
         ModelAndView model = new ModelAndView("user/user");
-        if (user != null) {
+        if (user != null && user.getPassword().equals(userReceived.getPassword())) {
             user.setLoggedIn(true);
+        } else if (user != null) {
+            user.setLoggedIn(false);
         }
+        model.addObject("user", user);
+        return model;
+    }
+
+    @GetMapping("/user")
+    public ModelAndView getUserByLink() {
+        ModelAndView model = new ModelAndView("user/user");
         model.addObject("user", user);
         return model;
     }
@@ -52,9 +67,24 @@ public class UserController {
     }
 
     @PostMapping("/userList")
-    public ModelAndView getUserList(UserDto userReceived) {
+    public ModelAndView getUserList() {
+        if(user == null || !user.isLoggedIn()) {
+            throw new LoginException("Not authorized");
+        }
         ModelAndView model = new ModelAndView("user/userList");
         model.addObject("userList", userService.getMap());
+        model.addObject("user", user);
+        return model;
+    }
+
+    @GetMapping("/userList")
+    public ModelAndView getUserListByLink() {
+        if(user == null || !user.isLoggedIn()) {
+            throw new LoginException("Not authorized");
+        }
+        ModelAndView model = new ModelAndView("user/userList");
+        model.addObject("userList", userService.getMap());
+        model.addObject("user", user);
         return model;
     }
 }
