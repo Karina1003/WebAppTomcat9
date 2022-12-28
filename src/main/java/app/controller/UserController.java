@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ModelAndView getUser(UserDto userReceived) {
+    public ModelAndView postUser(UserDto userReceived) {
         user = userService.getUser(userReceived.getUsername());
         ModelAndView model = new ModelAndView("user/user");
         if (user != null && user.getPassword().equals(userReceived.getPassword())) {
@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/userList")
-    public ModelAndView getUserList() {
+    public ModelAndView postUserList() {
         if(user == null || !user.isLoggedIn()) {
             throw new LoginException("Not authorized");
         }
