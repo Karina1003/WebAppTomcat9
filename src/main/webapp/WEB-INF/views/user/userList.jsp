@@ -23,7 +23,7 @@ td {
    </c:forEach>
 </table>
 <p>${user.name}</p>
-<form:form modelAttribute="user"
+<form:form modelAttribute="user" method="get"
                     action="${pageContext.request.contextPath}/app/login">
                     <table>
                        <tr>

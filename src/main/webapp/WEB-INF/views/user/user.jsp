@@ -22,7 +22,7 @@
   <h2>Menu</h2>
   <ul>
       <li>
-          <form:form modelAttribute="user"
+          <form:form modelAttribute="user" method="get"
                 action="${pageContext.request.contextPath}/app/userList">
                 <table>
                    <tr>
@@ -34,7 +34,7 @@
           </form:form>
       </li>
       <li>
-          <form:form modelAttribute="user"
+          <form:form modelAttribute="user" method="get"
                     action="${pageContext.request.contextPath}/app/login">
                     <table>
                        <tr>

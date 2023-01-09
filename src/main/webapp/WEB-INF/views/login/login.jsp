@@ -14,7 +14,7 @@
       <h1 style="text-align:center"> Please, enter your username and password </h1>
   </header>
 
-    <form:form align="center" modelAttribute="user"
+    <form:form align="center" modelAttribute="user" method="post"
             action="${pageContext.request.contextPath}/app/user">
             <table>
                  <tr>

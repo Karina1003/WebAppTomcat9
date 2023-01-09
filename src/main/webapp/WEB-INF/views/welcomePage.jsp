@@ -7,7 +7,7 @@
 
 <body style="background-color:rgb(182,207,236);">
   <header>
-      <h1 style="text-align:center">Welcome to my website</h1>
+      <h1 style="text-align:center">Welcome to my Website</h1>
   </header>
 
   <form action="${pageContext.request.contextPath}/app/login">

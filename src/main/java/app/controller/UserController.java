@@ -4,6 +4,7 @@ import app.dto.UserDto;
 import app.exception.LoginException;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,26 +13,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
+@Scope("session")
 @RequestMapping()
 public class UserController {
     @Autowired
     UserService userService;
 
-    @Autowired
+    //@Autowired
     UserDto user;
 
     @GetMapping("/login")
     public ModelAndView logIn() {
-        user.setLoggedIn(false);
-        UserDto user = new UserDto();
-        ModelAndView model = new ModelAndView("login/login");
-        model.addObject("user", user);
-        return model;
-    }
-
-    @PostMapping("/login")
-    public ModelAndView logOut() {
-        user.setLoggedIn(false);
+        if (user != null) {
+            user.setLoggedIn(false);
+        }
         UserDto user = new UserDto();
         ModelAndView model = new ModelAndView("login/login");
         model.addObject("user", user);
@@ -66,16 +61,6 @@ public class UserController {
         return model;
     }
 
-    @PostMapping("/userList")
-    public ModelAndView postUserList() {
-        if(user == null || !user.isLoggedIn()) {
-            throw new LoginException("Not authorized");
-        }
-        ModelAndView model = new ModelAndView("user/userList");
-        model.addObject("userList", userService.getMap());
-        model.addObject("user", user);
-        return model;
-    }
 
     @GetMapping("/userList")
     public ModelAndView getUserListByLink() {
